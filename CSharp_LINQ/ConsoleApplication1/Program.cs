@@ -15,12 +15,48 @@ namespace ConsoleApplication1
                 from student in students
                 where student.Scores[0] > 90 && student.Scores[3] > 80
                 orderby student.Last ascending
+                orderby student.Scores[0] descending
                 select student;
             //execute the query 
             //could also use var keyword
-            foreach (Student student in studentQuery)
+
+            /*   
+            ////1st group
+                foreach (Student student in studentQuery)
+                {
+                    Console.WriteLine( "{0}, {1} {2}", student.Last, student.First, student.Scores[0]);
+                }
+                */
+
+            /*
+            ///studentQuery2
+            var studentQuery2 =
+                from student in students
+                group student by student.Last[0];
+
+            foreach (var StudentGroup in studentQuery2) 
             {
-                Console.WriteLine( "{0}, {1}", student.Last, student.First);
+                Console.WriteLine(StudentGroup.Key);
+                foreach (Student student in StudentGroup)
+                {
+                    Console.WriteLine(" {0}, {1}",
+                               student.Last, student.First);
+                }
+            }
+            */
+
+            var studentQuery3 =
+            from student in students
+            group student by student.Last[0];
+
+            foreach (var groupOfStudents in studentQuery3)
+            {
+                Console.WriteLine(groupOfStudents.Key);
+                foreach (var student in groupOfStudents)
+                {
+                    Console.WriteLine("   {0}, {1}",
+                        student.Last, student.First);
+                }
             }
         } 
              public class Student
@@ -48,7 +84,7 @@ namespace ConsoleApplication1
         new Student {First="Michael", Last="Tucker", ID=122, Scores= new List<int> {94, 92, 91, 91} },
         new Student {First="James", Last="Bond", ID=123, Scores= new List<int> {95,95,98, 99 } }
     };
-    }
+  }
     
 
 }
